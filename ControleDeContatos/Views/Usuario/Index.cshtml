@@ -36,6 +36,7 @@
       <th scope="col">Nome</th>
       <th scope="col">Login</th>
       <th scope="col">Email</th>
+      <th scope="col">Perfil</th>
       <th scope="col">Data de cadastro</th>
       <th scope="col"></th>
     </tr>
@@ -50,6 +51,7 @@
                   <td>@usuario.Nome</td>
                   <td>@usuario.Login</td>
                   <td>@usuario.Email</td>
+                  <td>@(usuario.Perfil == ControleDeContatos.Enums.PerfilEnum.Admin ? "Administrador" : "Padrao")</td>
                   <td>@usuario.DataCadastro</td>
                   <td>
                       <div class="btn-group" role="group">
