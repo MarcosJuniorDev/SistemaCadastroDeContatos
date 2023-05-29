@@ -18,6 +18,7 @@ namespace ControleDeContatos.Repositorio
         {
             // gravar no babco de dados
             usuario.DataCadastro = DateTime.Now;
+            usuario.SetSenhaHash();
             _bancoContext.Usuarios.Add(usuario);
             _bancoContext.SaveChanges();
             return usuario;
