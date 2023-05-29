@@ -27,6 +27,11 @@ namespace ControleDeContatos.Controllers
             return View();
         }
 
+        public IActionResult RedefinirSenha()
+        {
+            return View();
+        }
+
         public IActionResult Sair()
         {
             _sessao.RemoverSessaoUsuario();
@@ -62,6 +67,37 @@ namespace ControleDeContatos.Controllers
             catch (Exception e)
             {
                 TempData["MensagemErro"] = $"Ops, não conseguimos realizar seu login, tente novamente, detalhe do erro: {e.Message}";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult EnviarLinkParaRedefinirSenha(RedefinirSenhaModel redefinirSenhaModel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    //verifico se a model é valida e recebo o login armazenando na var usuario
+                    UsuarioModel usuario = _usuarioRepositorio.BuscarPorEmailELogin(redefinirSenhaModel.Email, redefinirSenhaModel.Login);
+
+                    //se usuario não for nulo, verifico se a senha bate com a do banco usando o metodo criado no proprio model
+                    if (usuario != null)
+                    {
+
+
+                        TempData["MensagemSucesso"] = $"Enviamos para o seu email cadastrado uma nova senha.";
+                        return RedirectToAction("Index", "Login");
+
+                    }
+                    TempData["MensagemErro"] = $"não conseguimos redefinir sua senha. Por favor, verifique os dados informados.";
+                }
+
+                return View("Index");
+            }
+            catch (Exception e)
+            {
+                TempData["MensagemErro"] = $"Ops, não conseguimos redefinir sua senha, tente novamente, detalhe do erro: {e.Message}";
                 return RedirectToAction("Index");
             }
         }
